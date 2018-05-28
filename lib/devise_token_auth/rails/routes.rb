@@ -37,7 +37,7 @@ module ActionDispatch::Routing
       unnest_namespace do
         # get full url path as if it were namespaced
         full_path = "#{@scope[:path]}/#{opts[:at]}"
-        puts full_path
+
         # get namespace name
         namespace_name = @scope[:as]
 
@@ -93,7 +93,7 @@ module ActionDispatch::Routing
               end
 
               # re-construct the path for omniauth
-              "#{::OmniAuth.config.path_prefix}/#{params[:provider]}?#{redirect_params.to_param}"
+              "test#{::OmniAuth.config.path_prefix}/#{params[:provider]}?#{redirect_params.to_param}"
             }, via: [:get]
           end
         end
