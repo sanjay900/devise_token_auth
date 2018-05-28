@@ -68,33 +68,33 @@ module ActionDispatch::Routing
 
             # preserve the resource class thru oauth authentication by setting name of
             # resource as "resource_class" param
-            match "#{full_path}/:provider", to: redirect{|params, request|
-              # get the current querystring
-              qs = CGI::parse(request.env["QUERY_STRING"])
-
-              # append name of current resource
-              qs["resource_class"] = [resource]
-              qs["namespace_name"] = [namespace_name] if namespace_name
-
-              set_omniauth_path_prefix!(DeviseTokenAuth.omniauth_prefix)
-
-              redirect_params = {}.tap {|hash| qs.each{|k, v| hash[k] = v.first}}
-
-              if DeviseTokenAuth.redirect_whitelist
-                redirect_url = request.params['auth_origin_url']
-                unless DeviseTokenAuth::Url.whitelisted?(redirect_url)
-                  message = I18n.t(
-                    'devise_token_auth.registrations.redirect_url_not_allowed',
-                    redirect_url: redirect_url
-                  )
-                  redirect_params['message'] = message
-                  next "#{::OmniAuth.config.path_prefix}/failure?#{redirect_params.to_param}"
-                end
-              end
-
-              # re-construct the path for omniauth
-              "test#{::OmniAuth.config.path_prefix}/#{params[:provider]}?#{redirect_params.to_param}"
-            }, via: [:get]
+            # match "#{full_path}/:provider", to: redirect{|params, request|
+            #   # get the current querystring
+            #   qs = CGI::parse(request.env["QUERY_STRING"])
+            #
+            #   # append name of current resource
+            #   qs["resource_class"] = [resource]
+            #   qs["namespace_name"] = [namespace_name] if namespace_name
+            #
+            #   set_omniauth_path_prefix!(DeviseTokenAuth.omniauth_prefix)
+            #
+            #   redirect_params = {}.tap {|hash| qs.each{|k, v| hash[k] = v.first}}
+            #
+            #   if DeviseTokenAuth.redirect_whitelist
+            #     redirect_url = request.params['auth_origin_url']
+            #     unless DeviseTokenAuth::Url.whitelisted?(redirect_url)
+            #       message = I18n.t(
+            #         'devise_token_auth.registrations.redirect_url_not_allowed',
+            #         redirect_url: redirect_url
+            #       )
+            #       redirect_params['message'] = message
+            #       next "#{::OmniAuth.config.path_prefix}/failure?#{redirect_params.to_param}"
+            #     end
+            #   end
+            #
+            #   # re-construct the path for omniauth
+            #   "test#{::OmniAuth.config.path_prefix}/#{params[:provider]}?#{redirect_params.to_param}"
+            # }, via: [:get]
           end
         end
       end
