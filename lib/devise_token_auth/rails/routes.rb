@@ -93,6 +93,8 @@ module ActionDispatch::Routing
               end
               puts request.env
               # re-construct the path for omniauth
+              puts request.env["HTTP_X_FORWARDED_PROTO"]
+              puts request.env["HTTP_X_FORWARDED_HOST"]
               "#{request.env["HTTP_X_FORWARDED_PROTO"]}://#{request.env["HTTP_X_FORWARDED_HOST"]}/#{::OmniAuth.config.path_prefix}/#{params[:provider]}?#{redirect_params.to_param}"
             }, via: [:get]
           end
