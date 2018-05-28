@@ -37,7 +37,7 @@ module ActionDispatch::Routing
       unnest_namespace do
         # get full url path as if it were namespaced
         full_path = "#{@scope[:path]}/#{opts[:at]}"
-
+        puts full_path
         # get namespace name
         namespace_name = @scope[:as]
 
