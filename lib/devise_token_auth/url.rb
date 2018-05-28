@@ -2,6 +2,7 @@
 
 module DeviseTokenAuth::Url
 
+
   def self.generate(url, params = {})
     uri = URI(url)
 
@@ -11,16 +12,16 @@ module DeviseTokenAuth::Url
     query = [uri.query, params.to_query].reject(&:blank?).join('&')
     res += "?#{query}"
     res += "##{uri.fragment}" if uri.fragment
-
-    return res
+    puts url
+    puts res
+    res
   end
-
   def self.whitelisted?(url)
     url.nil? || !!DeviseTokenAuth.redirect_whitelist.find { |pattern| !!Wildcat.new(pattern).match(url) }
   end
 
 
-  # wildcard convenience class
+# wildcard convenience class
   class Wildcat
     def self.parse_to_regex(str)
       escaped = Regexp.escape(str).gsub('\*','.*?')
